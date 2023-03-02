@@ -1,4 +1,5 @@
 package com.example;
+import java.util.Scanner;
 
 /**
  * Hello world!
@@ -8,11 +9,23 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
-        double a = 1.0034534535;
-        double b = 2.078989;
-        double c = 3.00;
-        drawMenu( a, b, c);
+        calc();
+    }
+
+    public static void calc()
+    {
+        Scanner in = new Scanner(System.in);
+        Boolean quit= false;
+        double A = 0.0;
+        double B = 0.0;
+        double C = 0.0;
+        while(quit==false){
+            drawMenu( A, B, C);
+            String userInputString= in.nextLine();
+            quit = true;
+        }
+        in.close();
+
     }
 
     public static void drawMenu( double A, double B, double C)
@@ -34,6 +47,7 @@ public class App
         System.out.println( "c\tClear" );
         System.out.println( "q\tQuit" );
         hLine();
+        System.out.println( "Enter a command: " );
     }
     public static void hLine(){
         System.out.println( "--------------------------------------------" );
