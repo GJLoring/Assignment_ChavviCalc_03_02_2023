@@ -17,6 +17,14 @@ public class App
 
     public static void calc()
     {
+        String RegisterACommand = "a";
+        String RegisterBCommand = "B";
+        String AddCommand = "+";
+        String SubCommand = "-";
+        String DivCommand = "/";
+        String MultCommand = "*";
+        String ClearCommand = "c";
+        String QuitCommand = "q";
         Scanner in = new Scanner(System.in);
         Boolean quit= false;
         double A = 0.0;
@@ -24,48 +32,47 @@ public class App
         while(quit==false){
             drawMenu( A, B);
             String userInputString = in.nextLine();
-            if( isCommandRegisterA(userInputString))
+            if( isCommand( userInputString, RegisterACommand))
             {
                 A = getRegisterValue( "a", in);
             }
-            else if(isCommandRegisterB(userInputString))
+            else if( isCommand( userInputString, RegisterBCommand))
             {
                 B = getRegisterValue( "b", in);
             }
-            else if(isCommandAdd(userInputString))
+            else if( isCommand( userInputString, AddCommand))
             {
                 calAdd(A, B);
             }
-            else if(isCommandSubtract(userInputString))
+            else if( isCommand( userInputString, SubCommand))
             {
                 calSub(A, B);
             }                                    
-            else if(isCommandDivide(userInputString))
+            else if( isCommand( userInputString, DivCommand))
             {
                 calDiv(A, B);
             }
-            else if(isCommandMultiply(userInputString))
+            else if( isCommand( userInputString, MultCommand))
             {
                 calMul(A, B);
             }
-            else if(isCommandClear(userInputString))
+            else if( isCommand( userInputString, ClearCommand))
             {
                 A = 0;
                 B = 0;
                 System.out.println( "User Selected Clear ");
             }
-            else if(isCommandQuit(userInputString))
+            else if( isCommand( userInputString, QuitCommand))
             {
                 System.out.println( "User Selected Quit ");
                 quit = true;
             }
             else{
                 drawErrorScreen(userInputString);
-            }
-            
+            }   
         }
         in.close();
-
+        return;
     }
 
     public static double getRegisterValue(String RegName, Scanner in)
@@ -73,7 +80,7 @@ public class App
         double registerValue = 0;
         boolean isValueValid = false;
 
-        String regexFloatingPoint = "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?";    // regular expression for a floating point number
+        String regexFloatingPoint = "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?";    // googled regular expression for a floating point number
 
         while(isValueValid == false)
         {
@@ -153,78 +160,29 @@ public class App
         String displayA = String.format("%.3f", A);
         String displayB = String.format("%.3f", B);
         String displayC = String.format("%.3f", C);
+        System.out.println( "" );
         System.out.println( "Result\t" +  displayA + " " + operation + " " + displayB + " = " + displayC ); 
+        System.out.println( "" );
         return;
     }
 
     public static void drawErrorScreen( String inputString)
     {
+        System.out.println( "" );
         System.out.println( "Could not parse input string " + inputString + " as data or command" );
+        System.out.println( "" );
         return;
     }
 
-    public static boolean isCommandRegisterA( String inputString)
+    public static boolean isCommand( String inputString, String CommandString)
     {
-       if(inputString.equals(new String("a")))
+       String capInputString = inputString.toUpperCase();
+       String capCommandString = CommandString.toUpperCase();
+       if(capInputString.equals(capCommandString))
             return true;
         return false;
     }
 
-    public static boolean isCommandRegisterB( String inputString)
-    {
-        if(inputString.equals(new String("b")))
-            return true;
-        return false;
-    }
-
-    public static boolean isCommandAdd( String inputString)
-    {
-        if(inputString.equals(new String("+")))
-            return true;
-        return false;
-    }
-
-    public static boolean isCommandSubtract( String inputString)
-    {
-        if(inputString.equals(new String("-")))
-            return true;
-        return false;
-    }
-
-    public static boolean isCommandDivide( String inputString)
-    {
-        if(inputString.equals(new String("/")))
-            return true;
-        return false;
-    }
-
-    public static boolean isCommandMultiply( String inputString)
-    {
-        if(inputString.equals(new String("*")))
-            return true;
-        return false;
-    }
-
-    public static boolean isCommandClear( String inputString)
-    {
-        if(inputString.equals(new String("c")))
-            return true;
-        return false;
-    }
-
-
-    public static boolean isCommandQuit( String inputString)
-    {
-        if(inputString.equals(new String("q")))
-            return true;
-        return false;
-    }
-
-
-    public static boolean isData( String inputString)
-    {
-        return true;
-    }
 
 
     public static void drawMenu( double A, double B)
