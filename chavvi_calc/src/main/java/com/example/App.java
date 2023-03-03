@@ -1,7 +1,8 @@
 package com.example;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import javax.lang.model.util.ElementScanner14;
 
 /**
  * Hello world!
@@ -20,35 +21,32 @@ public class App
         Boolean quit= false;
         double A = 0.0;
         double B = 0.0;
-        double C = 0.0;
         while(quit==false){
-            drawMenu( A, B, C);
+            drawMenu( A, B);
             String userInputString = in.nextLine();
             if( isCommandRegisterA(userInputString))
             {
-                System.out.println( "Enter value for A: ");
-                String aString = in.nextLine();
+                A = getRegisterValue( "a", in);
             }
             else if(isCommandRegisterB(userInputString))
             {
-                System.out.println( "Enter value for B: ");
-                String bString = in.nextLine();
+                B = getRegisterValue( "b", in);
             }
             else if(isCommandAdd(userInputString))
             {
-                System.out.println( "User Selected Add ");
+                calAdd(A, B);
             }
             else if(isCommandSubtract(userInputString))
             {
-                System.out.println( "User Selected Subtract ");            
+                calSub(A, B);
             }                                    
             else if(isCommandDivide(userInputString))
             {
-                System.out.println( "User Selected Divide ");
+                calDiv(A, B);
             }
             else if(isCommandMultiply(userInputString))
             {
-                System.out.println( "User Selected Multiply ");
+                calMul(A, B);
             }
             else if(isCommandClear(userInputString))
             {
@@ -70,6 +68,94 @@ public class App
 
     }
 
+    public static double getRegisterValue(String RegName, Scanner in)
+    {
+        double registerValue = 0;
+        boolean isValueValid = false;
+
+        String regexFloatingPoint = "[+-]?[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)?";    // regular expression for a floating point number
+
+        while(isValueValid == false)
+        {
+            System.out.println( "Please Enter a value for Register: " + RegName);
+            String userInputString = in.nextLine();
+            if(containsNumberRegEx(userInputString, regexFloatingPoint))
+            {
+                registerValue = Double.parseDouble(userInputString);
+                isValueValid = true;
+            }   
+            else
+            {
+                System.out.println( "The value entered ( " + userInputString + " ) for register: " + RegName + " is not a valid int, float or double");
+            }
+        }
+        return registerValue;
+    }
+
+    public static boolean containsNumberRegEx(String userInputString, String regex){   
+        Pattern p = Pattern.compile(regex);    
+        Matcher m = p.matcher(userInputString);
+        boolean patternMatched = false;
+        if(m.find() && m.group().equals(userInputString))
+        {
+            System.out.println(userInputString + " is a valid float number");
+            patternMatched = true;
+        }
+        else
+        {
+            System.out.println(userInputString + " is not a valid float number");
+        }
+        
+     
+        return patternMatched;
+    }
+
+    public static void calAdd(double A, double B)
+    {
+        double C = A + B;
+        String displayA = String.format("%.3f", A);
+        String displayB = String.format("%.3f", B);
+        String displayC = String.format("%.3f", C);
+        System.out.println( "Result\t" +  displayA + " + " + displayB + " = " + displayC );
+        return;
+    }
+
+    public static void calSub(double A, double B)
+    {
+        double C = A - B;
+        String displayA = String.format("%.3f", A);
+        String displayB = String.format("%.3f", B);
+        String displayC = String.format("%.3f", C);
+        System.out.println( "Result\t" +  displayA + " - " + displayB + " = " + displayC );        
+        return;
+    }
+
+    public static void calDiv(double A, double B)
+    {
+        if(B != 0){
+            double C = A / B;
+            String displayA = String.format("%.3f", A);
+            String displayB = String.format("%.3f", B);
+            String displayC = String.format("%.3f", C);
+            System.out.println( "Result\t" +  displayA + " + " + displayB + " = " + displayC );
+        }
+        else
+        {
+            System.out.println( "Divide by zero error" );
+        }
+        return;
+    }
+
+    public static void calMul(double A, double B)
+    {
+        double C = A * B;
+        String displayA = String.format("%.3f", A);
+        String displayB = String.format("%.3f", B);
+        String displayC = String.format("%.3f", C);
+        System.out.println( "Result\t" +  displayA + " * " + displayB + " = " + displayC );
+        return;
+    }
+
     public static void drawErrorScreen( String inputString)
     {
         System.out.println( "Could not parse input string " + inputString + " as data or command" );
@@ -78,7 +164,7 @@ public class App
 
     public static boolean isCommandRegisterA( String inputString)
     {
-        if(inputString.equals(new String("a")))
+       if(inputString.equals(new String("a")))
             return true;
         return false;
     }
@@ -140,11 +226,10 @@ public class App
     }
 
 
-    public static void drawMenu( double A, double B, double C)
+    public static void drawMenu( double A, double B)
     {
         String displayA = String.format("%.3f", A);
         String displayB = String.format("%.3f", B);
-        String displayC = String.format("%.3f", C);
         hLine();
         System.out.println( "Chavvi Calc" );
         hLine();
