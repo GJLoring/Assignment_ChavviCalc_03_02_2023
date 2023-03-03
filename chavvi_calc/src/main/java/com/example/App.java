@@ -112,32 +112,26 @@ public class App
 
     public static void calAdd(double A, double B)
     {
+        String operation = "+";
         double C = A + B;
-        String displayA = String.format("%.3f", A);
-        String displayB = String.format("%.3f", B);
-        String displayC = String.format("%.3f", C);
-        System.out.println( "Result\t" +  displayA + " + " + displayB + " = " + displayC );
+        displayResult( A, B, C, operation);
         return;
     }
 
     public static void calSub(double A, double B)
     {
+        String operation = "-";
         double C = A - B;
-        String displayA = String.format("%.3f", A);
-        String displayB = String.format("%.3f", B);
-        String displayC = String.format("%.3f", C);
-        System.out.println( "Result\t" +  displayA + " - " + displayB + " = " + displayC );        
+        displayResult( A, B, C, operation);     
         return;
     }
 
     public static void calDiv(double A, double B)
     {
         if(B != 0){
+            String operation = "/";
             double C = A / B;
-            String displayA = String.format("%.3f", A);
-            String displayB = String.format("%.3f", B);
-            String displayC = String.format("%.3f", C);
-            System.out.println( "Result\t" +  displayA + " + " + displayB + " = " + displayC );
+            displayResult( A, B, C, operation);
         }
         else
         {
@@ -148,11 +142,18 @@ public class App
 
     public static void calMul(double A, double B)
     {
+        String operation = "*";
         double C = A * B;
+        displayResult( A, B, C, operation);
+        return;
+    }
+
+    public static void displayResult( double A, double B, double C, String operation)
+    {
         String displayA = String.format("%.3f", A);
         String displayB = String.format("%.3f", B);
         String displayC = String.format("%.3f", C);
-        System.out.println( "Result\t" +  displayA + " * " + displayB + " = " + displayC );
+        System.out.println( "Result\t" +  displayA + " " + operation + " " + displayB + " = " + displayC ); 
         return;
     }
 
